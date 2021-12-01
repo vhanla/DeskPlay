@@ -44,15 +44,15 @@ object frmDeskPlay: TfrmDeskPlay
     Left = 416
     Top = 160
     object NewURL1: TMenuItem
-      Caption = 'Nueva URL'
+      Caption = 'New URL'
       OnClick = NewURL1Click
     end
     object Sound1: TMenuItem
-      Caption = 'Sonido'
+      Caption = 'Sound'
       OnClick = Sound1Click
     end
     object ransparentcurrentwindow1: TMenuItem
-      Caption = 'Ventana Actual Transparente'
+      Caption = 'Transparent Window'
       object N101: TMenuItem
         Tag = 25
         Caption = '10%'
@@ -74,7 +74,7 @@ object frmDeskPlay: TfrmDeskPlay
         OnClick = N1001Click
       end
       object NoTransparente1: TMenuItem
-        Caption = 'No Transparente'
+        Caption = 'Opaque'
         OnClick = NoTransparente1Click
       end
     end
@@ -82,11 +82,11 @@ object frmDeskPlay: TfrmDeskPlay
       Caption = '-'
     end
     object Desconectar1: TMenuItem
-      Caption = 'Desconectar'
+      Caption = 'Disconnect'
       OnClick = Desconectar1Click
     end
     object Salir1: TMenuItem
-      Caption = 'Salir'
+      Caption = 'E&xit'
       OnClick = Salir1Click
     end
   end
