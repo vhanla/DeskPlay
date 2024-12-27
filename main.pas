@@ -12,30 +12,38 @@ type
     PasLibVlcPlayer1: TPasLibVlcPlayer;
     TrayIcon1: TTrayIcon;
     PopupMenu1: TPopupMenu;
-    Salir1: TMenuItem;
-    NewURL1: TMenuItem;
-    Sound1: TMenuItem;
+    mnuExit: TMenuItem;
+    mnuNewURL: TMenuItem;
+    mnuSound: TMenuItem;
     N1: TMenuItem;
-    ransparentcurrentwindow1: TMenuItem;
+    Transparentcurrentwindow: TMenuItem;
     N101: TMenuItem;
     N501: TMenuItem;
     N751: TMenuItem;
     N1001: TMenuItem;
     NoTransparente1: TMenuItem;
-    Desconectar1: TMenuItem;
+    mnuDisconnect: TMenuItem;
     ListBox1: TListBox;
+    Settings1: TMenuItem;
+    VideoToLoop1: TMenuItem;
+    FileOpenDialog1: TFileOpenDialog;
     procedure FormCreate(Sender: TObject);
-    procedure Salir1Click(Sender: TObject);
-    procedure NewURL1Click(Sender: TObject);
-    procedure Sound1Click(Sender: TObject);
+    procedure mnuExitClick(Sender: TObject);
+    procedure mnuNewURLClick(Sender: TObject);
+    procedure mnuSoundClick(Sender: TObject);
     procedure N101Click(Sender: TObject);
     procedure N501Click(Sender: TObject);
     procedure N751Click(Sender: TObject);
     procedure N1001Click(Sender: TObject);
     procedure NoTransparente1Click(Sender: TObject);
-    procedure Desconectar1Click(Sender: TObject);
+    procedure mnuDisconnectClick(Sender: TObject);
+    procedure Settings1Click(Sender: TObject);
+    procedure VideoToLoop1Click(Sender: TObject);
+    procedure PasLibVlcPlayer1MediaPlayerEndReached(Sender: TObject);
   private
     { Private declarations }
+    FLoop: Boolean;
+    FVideoFile: string;
     procedure SetAlphaLevel(level: Byte);
   public
     { Public declarations }
@@ -50,11 +58,11 @@ function GetShellWindow:HWND;stdcall;
 implementation
 
 uses
-  PasLibVlcClassUnit;
+  PasLibVlcClassUnit, settings;
 
 {$R *.dfm}
 
-procedure TfrmDeskPlay.Desconectar1Click(Sender: TObject);
+procedure TfrmDeskPlay.mnuDisconnectClick(Sender: TObject);
 begin
   var d := GetShellWindow; // progman
   var re: Integer;
@@ -80,6 +88,8 @@ var
   vWnd: HWND;
   r: TRect;
 begin
+  FLoop := True;
+
   lista := TStringList.Create;
   try
     vWnd := GetWindow(GetDesktopWindow, GW_CHILD);
@@ -162,11 +172,11 @@ begin
   SetAlphaLevel(TMenuItem(Sender).Tag);
 end;
 
-procedure TfrmDeskPlay.NewURL1Click(Sender: TObject);
+procedure TfrmDeskPlay.mnuNewURLClick(Sender: TObject);
 var
   url: string;
 begin
-  if InputQuery('','Pegar URL de Youtube', url) then
+  if InputQuery('','Paste YouTube URL here:', url) then
     PasLibVlcPlayer1.PlayYoutube(url);
 end;
 
@@ -175,7 +185,12 @@ begin
   SetAlphaLevel(255);
 end;
 
-procedure TfrmDeskPlay.Salir1Click(Sender: TObject);
+procedure TfrmDeskPlay.PasLibVlcPlayer1MediaPlayerEndReached(Sender: TObject);
+begin
+  PasLibVlcPlayer1.Play(FVideoFile);
+end;
+
+procedure TfrmDeskPlay.mnuExitClick(Sender: TObject);
 begin
   Close;
 end;
@@ -192,12 +207,28 @@ begin
   end;
 end;
 
-procedure TfrmDeskPlay.Sound1Click(Sender: TObject);
+procedure TfrmDeskPlay.Settings1Click(Sender: TObject);
 begin
-  Sound1.Checked := not Sound1.Checked;
+  frmSettings.Show;
+end;
+
+procedure TfrmDeskPlay.VideoToLoop1Click(Sender: TObject);
+begin
+
+  if FileOpenDialog1.Execute then
+  begin
+    FVideoFile := FileOpenDialog1.FileName;
+    PasLibVlcPlayer1.Play(FVideoFile);
+  end;
+
+end;
+
+procedure TfrmDeskPlay.mnuSoundClick(Sender: TObject);
+begin
+  mnuSound.Checked := not mnuSound.Checked;
 
 
-    PasLibVlcPlayer1.SetAudioMute(not Sound1.Checked);
+    PasLibVlcPlayer1.SetAudioMute(not mnuSound.Checked);
 end;
 
 end.

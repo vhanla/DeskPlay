@@ -12,9 +12,7 @@ object frmDeskPlay: TfrmDeskPlay
   Font.Height = -11
   Font.Name = 'Tahoma'
   Font.Style = []
-  OldCreateOrder = False
   OnCreate = FormCreate
-  PixelsPerInch = 96
   TextHeight = 13
   object PasLibVlcPlayer1: TPasLibVlcPlayer
     Left = 0
@@ -23,6 +21,7 @@ object frmDeskPlay: TfrmDeskPlay
     Height = 442
     Align = alClient
     SnapShotFmt = 'png'
+    OnMediaPlayerEndReached = PasLibVlcPlayer1MediaPlayerEndReached
     MouseEventsHandler = mehComponent
     object ListBox1: TListBox
       Left = 40
@@ -41,17 +40,21 @@ object frmDeskPlay: TfrmDeskPlay
     Top = 208
   end
   object PopupMenu1: TPopupMenu
-    Left = 416
-    Top = 160
-    object NewURL1: TMenuItem
+    Left = 424
+    Top = 192
+    object mnuNewURL: TMenuItem
       Caption = 'New URL'
-      OnClick = NewURL1Click
+      OnClick = mnuNewURLClick
     end
-    object Sound1: TMenuItem
+    object VideoToLoop1: TMenuItem
+      Caption = 'Video To Loop'
+      OnClick = VideoToLoop1Click
+    end
+    object mnuSound: TMenuItem
       Caption = 'Sound'
-      OnClick = Sound1Click
+      OnClick = mnuSoundClick
     end
-    object ransparentcurrentwindow1: TMenuItem
+    object Transparentcurrentwindow: TMenuItem
       Caption = 'Transparent Window'
       object N101: TMenuItem
         Tag = 25
@@ -78,16 +81,35 @@ object frmDeskPlay: TfrmDeskPlay
         OnClick = NoTransparente1Click
       end
     end
+    object Settings1: TMenuItem
+      Caption = 'Settings'
+      OnClick = Settings1Click
+    end
     object N1: TMenuItem
       Caption = '-'
     end
-    object Desconectar1: TMenuItem
+    object mnuDisconnect: TMenuItem
       Caption = 'Disconnect'
-      OnClick = Desconectar1Click
+      OnClick = mnuDisconnectClick
     end
-    object Salir1: TMenuItem
+    object mnuExit: TMenuItem
       Caption = 'E&xit'
-      OnClick = Salir1Click
+      OnClick = mnuExitClick
     end
+  end
+  object FileOpenDialog1: TFileOpenDialog
+    FavoriteLinks = <>
+    FileTypes = <
+      item
+        DisplayName = 'MP4'
+        FileMask = '*.mp4'
+      end
+      item
+        DisplayName = 'All Files'
+        FileMask = '*.*'
+      end>
+    Options = []
+    Left = 536
+    Top = 104
   end
 end
